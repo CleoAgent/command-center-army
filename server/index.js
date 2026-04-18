@@ -21,7 +21,9 @@ if (!fs.existsSync(CONFIG_PATH)) {
     openai: '',
     etsy: '',
     printful: '',
-    fiverr: ''
+    fiverr: '',
+    signalDockAgentId: '',
+    signalDockApiKey: ''
   }, null, 2));
 }
 

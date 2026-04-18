@@ -102,10 +102,11 @@ function Header({ status }) {
       </div>
       
       <div className="hero-chips">
-        <span className="chip">OPENCLAW v{status?.openclawVersion?.split(' ')[0] || '—'}</span>
+        <span className="chip">OPENCLAW {status?.openclawVersion || '—'}</span>
+        <span className="chip">CLEO {status?.cleoVersion || '—'}</span>
         <span className="chip">GATEWAY {status?.gatewayPid ? 'ACTIVE' : '—'}</span>
         <span className="chip">MISSIONS {activeMissions}</span>
-        <span className="chip">ARMY 6 CAPTAINS / 18 WORKERS</span>
+        <span className="chip">ARMY 6 CAPTAINS / 18 OFFICERS</span>
       </div>
     </header>
   )
@@ -185,7 +186,9 @@ function IntegrationsView() {
     openai: '',
     etsy: '',
     printful: '',
-    fiverr: ''
+    fiverr: '',
+    signalDockAgentId: '',
+    signalDockApiKey: ''
   })
   const [saved, setSaved] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -266,6 +269,26 @@ function IntegrationsView() {
             value={keys.fiverr} 
             onChange={e => setKeys({...keys, fiverr: e.target.value})}
             placeholder="Vendor API key..."
+          />
+        </div>
+
+        <div className="form-group">
+          <label>SIGNALDOCK AGENT ID (COMMS OFFICER)</label>
+          <input 
+            type="text" 
+            value={keys.signalDockAgentId} 
+            onChange={e => setKeys({...keys, signalDockAgentId: e.target.value})}
+            placeholder="e.g. cleoagent"
+          />
+        </div>
+
+        <div className="form-group">
+          <label>SIGNALDOCK API KEY (COMMS OFFICER)</label>
+          <input 
+            type="password" 
+            value={keys.signalDockApiKey} 
+            onChange={e => setKeys({...keys, signalDockApiKey: e.target.value})}
+            placeholder="sk_live_..."
           />
         </div>
         
