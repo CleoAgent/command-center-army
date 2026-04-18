@@ -53,6 +53,33 @@ async function cleoCommand(args) {
   }
 }
 
+// Dynamic versions
+let cachedOpenClawVersion = 'Unknown';
+let cachedCleoVersion = 'Unknown';
+
+async function refreshVersions() {
+  try {
+    const oc = await execAsync('openclaw --version 2>/dev/null');
+    if (oc.stdout) cachedOpenClawVersion = oc.stdout.trim().replace('OpenClaw ', '');
+  } catch (e) {}
+  try {
+    const cl = await execAsync('npx cleo version 2>/dev/null');
+    if (cl.stdout) {
+      try {
+        const parsed = JSON.parse(cl.stdout.trim());
+        if (parsed.success && parsed.data && parsed.data.version) {
+          cachedCleoVersion = parsed.data.version;
+        }
+      } catch (e) {
+        const match = cl.stdout.match(/v\\d+\\.\\d+\\.\\d+|\\d+\\.\\d+\\.\\d+/);
+        cachedCleoVersion = match ? match[0] : cl.stdout.trim();
+      }
+    }
+  } catch (e) {}
+}
+refreshVersions();
+setInterval(refreshVersions, 60000 * 60);
+
 // API Routes
 app.get('/api/status', async (req, res) => {
   try {
@@ -62,7 +89,8 @@ app.get('/api/status', async (req, res) => {
     
     res.json({
       generatedAt: new Date().toISOString(),
-      openclawVersion: '2026.4.15 (041266a)',
+      openclawVersion: cachedOpenClawVersion,
+      cleoVersion: cachedCleoVersion,
       gatewayPid: '1072344',
       telegramState: 'ON | OK',
       cleoTasks: tasks,
