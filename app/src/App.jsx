@@ -16,8 +16,6 @@ function useLiveData() {
     
     const load = async () => {
       try {
-        if (!status) setLoading(true)
-        
         const [statusRes, armyRes] = await Promise.all([
           fetch('/api/status'),
           fetch('/api/army')
