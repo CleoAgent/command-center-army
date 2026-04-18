@@ -1,0 +1,7 @@
+{
+  "generatedAt": "2026-04-18T14:35:57Z",
+  "openclawVersion": "2026.4.15 (041266a)",
+  "gatewayPid": "1072344",
+  "telegramState": "\u2502 Telegram \u2502 ON \u2502 OK \u2502 token config (8535\u2026X-4w \u00b7 len 46) \u00b7 accounts 1/1 \u2502",
+  "cleoTasks": {"success":true,"data":{"results":[{"id":"T001","title":"OpenClaw-CLEO bridge","status":"pending","priority":"critical","depends":[],"type":"epic","size":"medium"},{"id":"T003","title":"Build CLEO task query -> OpenClaw session dispatch","status":"pending","priority":"critical","parentId":"T001","depends":[],"type":"task","size":"medium"},{"id":"T004","title":"Implement OpenClaw result -> CLEO task update","status":"pending","priority":"critical","parentId":"T001","depends":[],"type":"task","size":"medium"},{"id":"T005","title":"Map CLEO task states to OpenClaw subagent lifecycle","status":"pending","priority":"critical","parentId":"T001","depends":[],"type":"task","size":"medium"},{"id":"T002","title":"Create persistent daemon mode","status":"pending","priority":"critical","parentId":"T001","depends":[],"type":"task","size":"medium"}],"total":5},"meta":{"operation":"tasks.find","requestId":"26442763-8eea-4f83-9e22-28c09481fbbe","duration_ms":0,"timestamp":"2026-04-18T14:35:57.051Z"},"page":{"mode":"none"}}
+}

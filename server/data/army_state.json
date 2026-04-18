@@ -1,0 +1,56 @@
+{
+  "generatedAt": "2026-04-18T16:58:55.389Z",
+  "reportingPeriod": "2026-04-18",
+  "captains": {
+    "platform": {
+      "status": "operational",
+      "workersActive": 3
+    },
+    "commerce": {
+      "status": "generating",
+      "workersActive": 3,
+      "productsStaged": 3
+    },
+    "growth": {
+      "status": "generating",
+      "workersActive": 1,
+      "articlesOutlined": 5
+    },
+    "services": {
+      "status": "idle",
+      "workersActive": 0
+    },
+    "content": {
+      "status": "idle",
+      "workersActive": 0
+    },
+    "finance": {
+      "status": "monitoring",
+      "workersActive": 1
+    }
+  },
+  "pipelines": {
+    "commerce": {
+      "productsStaged": 18,
+      "productsPublished": 0,
+      "revenue": 0,
+      "projectedMonthly": 4296
+    },
+    "services": {
+      "gigsActive": 0,
+      "revenue": 0,
+      "projectedMonthly": 0
+    },
+    "content": {
+      "videosPublished": 0,
+      "views": 0,
+      "revenue": 0
+    }
+  },
+  "cleoMetrics": {
+    "totalTasks": 19,
+    "pending": 19,
+    "completed": 0,
+    "critical": 12
+  }
+}
