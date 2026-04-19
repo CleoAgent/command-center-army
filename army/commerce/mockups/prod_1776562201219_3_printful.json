@@ -1,0 +1,18 @@
+{
+  "sync_product": {
+    "name": "Memento Mori Stoic Philosophy Coffee Tumbler",
+    "thumbnail": "https://placeholder.com/mockup_prod_1776562201219_3.jpg"
+  },
+  "sync_variants": [
+    {
+      "variant_id": 4012,
+      "retail_price": "21.25",
+      "files": [
+        {
+          "url": "file:///home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776562201219_3_prompt.txt",
+          "placement": "default"
+        }
+      ]
+    }
+  ]
+}

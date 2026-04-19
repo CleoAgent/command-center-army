@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-18T16:58:55.389Z",
+  "generatedAt": "2026-04-19T17:06:25.064Z",
   "reportingPeriod": "2026-04-18",
   "captains": {
     "platform": {
@@ -31,10 +31,10 @@
   },
   "pipelines": {
     "commerce": {
-      "productsStaged": 18,
+      "productsStaged": 309,
       "productsPublished": 0,
       "revenue": 0,
-      "projectedMonthly": 4296
+      "projectedMonthly": 71953
     },
     "services": {
       "gigsActive": 0,
