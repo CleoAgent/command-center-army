@@ -4354,5 +4354,41 @@
     "designPromptFile": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776635101503_3_prompt.txt",
     "designGeneratedAt": "2026-04-19T21:45:01.539Z",
     "printfulFile": "/home/node/.openclaw/workspace/command-center/army/commerce/mockups/prod_1776635101503_3_printful.json"
+  },
+  {
+    "id": "prod_1776636001514_1",
+    "niche": "Dark Academia Decor",
+    "product_type": "Poster / Canvas",
+    "title": "Dark Academia Botanical Print - Vintage Apothecary Wall Art",
+    "target_audience": "Gen Z/Millennial aesthetic room decor",
+    "estimated_margin": "55%",
+    "status": "pod_ready",
+    "designPromptFile": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776636001514_1_prompt.txt",
+    "designGeneratedAt": "2026-04-19T22:00:01.549Z",
+    "printfulFile": "/home/node/.openclaw/workspace/command-center/army/commerce/mockups/prod_1776636001514_1_printful.json"
+  },
+  {
+    "id": "prod_1776636001514_2",
+    "niche": "Cyberpunk / Techwear",
+    "product_type": "Mousepad / Desk Mat",
+    "title": "Cyberpunk Cityscape LED Desk Mat - Neo Tokyo Gaming Accessory",
+    "target_audience": "Gamers, Software Engineers",
+    "estimated_margin": "40%",
+    "status": "pod_ready",
+    "designPromptFile": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776636001514_2_prompt.txt",
+    "designGeneratedAt": "2026-04-19T22:00:01.549Z",
+    "printfulFile": "/home/node/.openclaw/workspace/command-center/army/commerce/mockups/prod_1776636001514_2_printful.json"
+  },
+  {
+    "id": "prod_1776636001514_3",
+    "niche": "Stoic Philosophy",
+    "product_type": "Mug / Tumbler",
+    "title": "Memento Mori Stoic Philosophy Coffee Tumbler",
+    "target_audience": "Entrepreneurs, Productivity Enthusiasts",
+    "estimated_margin": "60%",
+    "status": "pod_ready",
+    "designPromptFile": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776636001514_3_prompt.txt",
+    "designGeneratedAt": "2026-04-19T22:00:01.550Z",
+    "printfulFile": "/home/node/.openclaw/workspace/command-center/army/commerce/mockups/prod_1776636001514_3_printful.json"
   }
 ]

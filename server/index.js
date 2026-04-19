@@ -265,7 +265,12 @@ app.get('/api/etsy/auth', (req, res) => {
   
   // Scopes for reading and writing listings/shops
   const scopes = 'listings_r listings_w shops_r shops_w';
-  const redirectUri = `http://${req.get('host')}/api/etsy/callback`;
+  let host = req.get('host');
+  // Etsy usually defaults to localhost or 127.0.0.1 callbacks for new apps before they are approved
+  if (host.includes('10.0.10.20') || host.includes('cleoagent.hoskins.fun')) {
+    host = 'localhost:5173'; 
+  }
+  const redirectUri = `http://${host}/api/etsy/callback`;
   
   const authUrl = `https://www.etsy.com/oauth/connect?response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes)}&client_id=${encodeURIComponent(clientId)}&state=${state}&code_challenge=${challenge}&code_challenge_method=S256`;
   
@@ -285,7 +290,12 @@ app.get('/api/etsy/callback', async (req, res) => {
   
   const config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'));
   const clientId = config.etsy;
-  const redirectUri = `http://${req.get('host')}/api/etsy/callback`;
+  let host = req.get('host');
+  // Etsy usually defaults to localhost or 127.0.0.1 callbacks for new apps before they are approved
+  if (host.includes('10.0.10.20') || host.includes('cleoagent.hoskins.fun')) {
+    host = 'localhost:5173'; 
+  }
+  const redirectUri = `http://${host}/api/etsy/callback`;
 
   try {
     const response = await fetch('https://api.etsy.com/v3/public/oauth/token', {
