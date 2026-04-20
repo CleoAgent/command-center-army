@@ -391,7 +391,30 @@ function IntegrationsView() {
           </div>
           <div style={{marginTop: '10px'}}>
             <button className="save-btn" onClick={() => window.open('/api/etsy/auth', '_blank')} style={{background: 'rgba(245, 158, 11, 0.2)', border: '1px solid #f59e0b', color: '#fcd34d'}}>
-              AUTHORIZE ETSY (OAUTH PKCE)
+              1. GET ETSY AUTH LINK
+            </button>
+          </div>
+          <div style={{marginTop: '20px', borderTop: '1px solid #334155', paddingTop: '10px'}}>
+            <label>2. PASTE THE RETURNED BROKEN URL HERE</label>
+            <input 
+              type="text" 
+              id="etsyCallbackPaste"
+              placeholder="https://cleoagent.hoskins.fun/api/etsy/callback?code=xxxxxx"
+            />
+            <button className="save-btn" onClick={async () => {
+              const val = document.getElementById('etsyCallbackPaste').value;
+              if (!val) return alert('Paste the URL first');
+              try {
+                const res = await fetch('/api/etsy/exchange', {
+                  method: 'POST',
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify({callbackUrl: val})
+                });
+                const data = await res.json();
+                alert(data.success ? 'Etsy successfully connected!' : 'Error: ' + data.error);
+              } catch(e) { alert(e.message); }
+            }} style={{background: 'rgba(16, 185, 129, 0.2)', border: '1px solid #10b981', color: '#6ee7b7', marginTop: '10px'}}>
+              3. VERIFY & CONNECT ETSY
             </button>
           </div>
         </div>

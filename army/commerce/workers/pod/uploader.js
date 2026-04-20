@@ -100,10 +100,10 @@ async function uploadToPrintful(product) {
         thumbnail: fileUrl
       },
       sync_variants: [{
-        variant_id: 1,
+        variant_id: 71, // Gildan 64000 T-Shirt, White S
         retail_price: '25.00',
         files: [{
-          type: 'default',
+          type: 'front', // front placement for t-shirts
           url: fileUrl
         }]
       }]

@@ -29,7 +29,7 @@ const pending = pipeline.filter(p => p.status === 'staged_for_generation').slice
 console.log(`[Design Worker] Processing ${pending.length} products with Gemini...`);
 
 async function generateImage(product) {
-  const prompt = `Product photography of ${product.title}. ${product.niche} aesthetic. Professional e-commerce style, clean background, high quality, 4K resolution.`;
+  const prompt = `Vector art graphic for t-shirt of ${product.title}. ${product.niche} aesthetic. FLAT solid color background (preferably pure white or pure black), clear edges, high contrast, perfect for apparel printing. NO mockup backgrounds, just the standalone graphic art.`;
   
   try {
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image-preview:generateContent?key=${geminiKey}`, {
@@ -52,10 +52,26 @@ async function generateImage(product) {
       for (const part of parts) {
         if (part.inlineData && part.inlineData.data) {
           const imageBuffer = Buffer.from(part.inlineData.data, 'base64');
-          const imagePath = path.join(outputDir, `${product.id}_design.png`);
-          fs.writeFileSync(imagePath, imageBuffer);
-          console.log(`[Design Worker] Generated image for ${product.id}`);
-          return imagePath;
+          const rawImagePath = path.join(outputDir, `${product.id}_raw.png`);
+          const finalImagePath = path.join(outputDir, `${product.id}_design.png`);
+          
+          // Save raw image
+          fs.writeFileSync(rawImagePath, imageBuffer);
+          console.log(`[Design Worker] Generated raw image for ${product.id}`);
+          
+          // Use rembg (python venv) to remove background
+          try {
+            console.log(`[Design Worker] Removing background for ${product.id}...`);
+            execSync(`/tmp/rembg_venv/bin/rembg i "${rawImagePath}" "${finalImagePath}"`, { stdio: 'pipe' });
+            console.log(`[Design Worker] Background removed for ${product.id}`);
+            // Optional: cleanup raw image
+            // fs.unlinkSync(rawImagePath);
+            return finalImagePath;
+          } catch (bgErr) {
+            console.error(`[Design Worker] Background removal failed, using raw image:`, bgErr.message);
+            fs.copyFileSync(rawImagePath, finalImagePath);
+            return finalImagePath;
+          }
         }
       }
     }

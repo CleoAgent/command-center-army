@@ -273,6 +273,47 @@ app.get('/api/etsy/auth', (req, res) => {
   res.redirect(authUrl);
 });
 
+app.post('/api/etsy/exchange', async (req, res) => {
+  const { callbackUrl } = req.body;
+  try {
+    const url = new URL(callbackUrl.trim());
+    const code = url.searchParams.get('code');
+    
+    if (!code) throw new Error("No authorization code found in the provided URL");
+    
+    const config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'));
+    const redirectUri = config.etsyCallbackUrl || `http://${req.get('host')}/api/etsy/callback`;
+
+    const response = await fetch('https://api.etsy.com/v3/public/oauth/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: new URLSearchParams({
+        grant_type: 'authorization_code',
+        client_id: config.etsy,
+        redirect_uri: redirectUri,
+        code: code,
+        code_verifier: etsyAuthState.verifier
+      })
+    });
+    
+    const data = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(JSON.stringify(data));
+    }
+    
+    config.etsyAccessToken = data.access_token;
+    config.etsyRefreshToken = data.refresh_token;
+    fs.writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2));
+    
+    res.json({ success: true, message: "Etsy Tokens acquired and saved!" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.get('/api/etsy/callback', async (req, res) => {
   const { code, state, error } = req.query;
   
