@@ -140,8 +140,46 @@ function ArmyView({ army, onSelectCaptain }) {
   )
 }
 
-function DepartmentView({ captain, tasks, onBack }) {
+function CommerceExports() {
+  const [exports, setExports] = useState([]);
+  useEffect(() => {
+    fetch('/api/army/exports')
+      .then(res => res.json())
+      .then(data => setExports(data))
+      .catch(err => console.error('Failed to fetch exports', err));
+  }, []);
+
+  return (
+    <Section title="GENERATED PACKAGES & POD EXPORTS" subtitle="Ready for manual upload to Etsy/Printful" icon={Database}>
+      {exports.length > 0 ? (
+        <div className="queue-grid">
+          {exports.map(exp => (
+            <div key={exp.name} className="queue-card" style={{border: '1px solid #10b981'}}>
+              <div className="queue-header">
+                <span className="queue-id">{exp.name}</span>
+                <span className="queue-status" style={{background: '#10b981'}}>READY</span>
+              </div>
+              <div className="queue-title">Generated: {new Date(exp.time).toLocaleString()}</div>
+              <a href={exp.url} download>
+                <button className="save-btn" style={{marginTop: '10px', background: 'rgba(16, 185, 129, 0.2)', border: '1px solid #10b981', color: '#6ee7b7', width: '100%'}}>
+                  DOWNLOAD ZIP PACKAGE
+                </button>
+              </a>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="empty-state">NO EXPORT PACKAGES AVAILABLE.</div>
+      )}
+    </Section>
+  );
+}
+
+function DepartmentView({ captain, tasks, onBack, army }) {
   const deptTasks = tasks.filter(t => t.title.toLowerCase().includes(captain.id.toLowerCase()) || (t.parentId && t.title.includes(captain.name.split(' ')[0])));
+  
+  const isCommerce = captain.id === 'commerce';
+  const commerceData = isCommerce ? army?.captains?.commerce : null;
   
   return (
     <div className="department-view">
@@ -163,6 +201,8 @@ function DepartmentView({ captain, tasks, onBack }) {
             <span key={worker} className="worker-badge" style={{padding: '8px 16px', fontSize: '0.9rem'}}>{worker.toUpperCase()}</span>
           )) : <span className="empty-state">NO OFFICERS ASSIGNED</span>}
         </div>
+        
+        {isCommerce && <CommerceExports />}
       </Section>
 
       <Section title="ACTIVE CLEO MISSIONS" subtitle={`Tasks assigned to ${captain.name}`} icon={Target}>
@@ -514,7 +554,8 @@ export default function App() {
         <DepartmentView 
           captain={selectedCaptain} 
           tasks={status?.cleoTasks || []} 
-          onBack={() => setSelectedCaptain(null)} 
+          onBack={() => setSelectedCaptain(null)}
+          army={army}
         />
       )}
       {activeTab === 'integrations' && <IntegrationsView />}

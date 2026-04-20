@@ -24,7 +24,7 @@ if (!geminiKey) {
 }
 
 const pipeline = JSON.parse(fs.readFileSync(inputPath, 'utf8'));
-const pending = pipeline.filter(p => p.status === 'staged_for_generation').slice(0, 2); // Limit to 2 per run to avoid rate limits
+const pending = pipeline.filter(p => p.status === 'staged_for_generation').slice(0, 10); // Limit to 10 per run
 
 console.log(`[Design Worker] Processing ${pending.length} products with Gemini...`);
 
@@ -32,7 +32,7 @@ async function generateImage(product) {
   const prompt = `Product photography of ${product.title}. ${product.niche} aesthetic. Professional e-commerce style, clean background, high quality, 4K resolution.`;
   
   try {
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image:generateContent?key=${geminiKey}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image-preview:generateContent?key=${geminiKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

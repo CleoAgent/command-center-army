@@ -317,6 +317,44 @@ app.get('/api/etsy/callback', async (req, res) => {
     res.status(500).send(`Failed to exchange token: ${err.message}`);
   }
 });
+// Serve commerce exports
+app.use('/exports', express.static(path.join(__dirname, '../army/commerce/exports')));
+
+app.get('/api/army/exports', (req, res) => {
+  const exportsDir = path.join(__dirname, '../army/commerce/exports');
+  if (!fs.existsSync(exportsDir)) return res.json([]);
+  const files = fs.readdirSync(exportsDir)
+    .filter(file => file.endsWith('.zip'))
+    .map(file => ({
+      name: file,
+      url: `/exports/${file}`,
+      time: fs.statSync(path.join(exportsDir, file)).mtime
+    })).sort((a, b) => b.time - a.time);
+  res.json(files);
+});
+
+// Products API with image previews
+app.get('/api/army/products', (req, res) => {
+  const pipelinePath = path.join(__dirname, '../army/commerce/workers/catalog/product_pipeline.json');
+  if (!fs.existsSync(pipelinePath)) return res.json([]);
+  const pipeline = JSON.parse(fs.readFileSync(pipelinePath, 'utf8'));
+  const products = pipeline.map(p => ({
+    id: p.id,
+    title: p.title,
+    status: p.status,
+    price: p.price || '25.00',
+    niche: p.niche,
+    hasImage: !!p.designImagePath,
+    imageUrl: p.designImagePath ? `/exports/images/${path.basename(p.designImagePath)}` : null,
+    printfulSynced: !!p.printfulSynced,
+    generatedAt: p.designGeneratedAt
+  }));
+  res.json(products);
+});
+
+// Serve design images
+app.use('/exports/images', express.static(path.join(__dirname, '../army/commerce/designs')));
+
 // Serve frontend static files
 
 app.use(express.static(DIST_PATH));

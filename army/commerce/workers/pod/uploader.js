@@ -1,6 +1,6 @@
-#!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 // POD Worker - Uploads to Printful using Private Token
 const pipelinePath = path.join(__dirname, '../catalog/product_pipeline.json');
@@ -11,9 +11,11 @@ if (!fs.existsSync(mockupDir)) fs.mkdirSync(mockupDir, { recursive: true });
 
 // Load credentials
 let printfulToken = '';
+let storeId = '';
 try {
   const creds = JSON.parse(fs.readFileSync(credsPath, 'utf8'));
   printfulToken = creds.printful || '';
+  storeId = creds.printfulStoreId || '';
 } catch (e) {
   console.error('[POD Worker] Failed to load credentials:', e.message);
 }
@@ -23,13 +25,37 @@ if (!printfulToken) {
   process.exit(0);
 }
 
+async function getStoreId() {
+  if (storeId) return storeId;
+  try {
+    const res = await fetch('https://api.printful.com/stores', {
+      headers: { 'Authorization': `Bearer ${printfulToken}` }
+    });
+    const data = await res.json();
+    if (data.result && data.result.length > 0) {
+      storeId = data.result[0].id;
+      console.log(`[POD Worker] Using Printful store ID: ${storeId}`);
+      return storeId;
+    }
+  } catch (err) {
+    console.error('[POD Worker] Failed to get store ID:', err.message);
+  }
+  return null;
+}
+
 const pipeline = JSON.parse(fs.readFileSync(pipelinePath, 'utf8'));
-const ready = pipeline.filter(p => p.status === 'design_ready').slice(0, 2); // Limit to 2 per run
+const ready = pipeline.filter(p => p.status === 'design_ready' && p.designImagePath).slice(0, 2);
 
 console.log(`[POD Worker] Processing ${ready.length} products for Printful...`);
 
 async function uploadToPrintful(product) {
   const imagePath = product.designImagePath;
+  const currentStoreId = await getStoreId();
+  
+  if (!currentStoreId) {
+    console.log('[POD Worker] No Printful store ID available. Skipping.');
+    return false;
+  }
   
   if (!imagePath || !fs.existsSync(imagePath)) {
     console.log(`[POD Worker] No image file for ${product.id}, skipping.`);
@@ -37,49 +63,48 @@ async function uploadToPrintful(product) {
   }
   
   try {
-    // Step 1: Upload the image file to Printful
-    const imageBuffer = fs.readFileSync(imagePath);
-    const base64Image = imageBuffer.toString('base64');
+    // Step 1: Upload the image file to Printful using curl with multipart
+    const curlCmd = `curl -s -X POST "https://api.printful.com/files?store_id=${currentStoreId}" \
+      -H "Authorization: Bearer ${printfulToken}" \
+      -F "file=@${imagePath};type=image/png;filename=${product.id}_design.png"`;
     
-    const uploadRes = await fetch('https://api.printful.com/files', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${printfulToken}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        filename: `${product.id}_design.png`,
-        file: base64Image
-      })
-    });
+    console.log(`[POD Worker] Uploading file for ${product.id}...`);
+    const curlResponse = execSync(curlCmd, { encoding: 'utf8', timeout: 30000 });
     
-    const uploadData = await uploadRes.json();
+    let uploadData;
+    try {
+      uploadData = JSON.parse(curlResponse);
+    } catch (e) {
+      console.error(`[POD Worker] Invalid JSON response from Printful:`, curlResponse.slice(0, 200));
+      return false;
+    }
     
-    if (!uploadRes.ok) {
+    if (!uploadData.result) {
       console.error(`[POD Worker] Printful upload failed for ${product.id}:`, uploadData);
       return false;
     }
     
     const fileId = uploadData.result.id;
-    console.log(`[POD Worker] Uploaded image for ${product.id}, file ID: ${fileId}`);
+    const fileUrl = uploadData.result.url;
+    console.log(`[POD Worker] Uploaded image for ${product.id}, file ID: ${fileId}, URL: ${fileUrl}`);
     
     // Step 2: Create a sync product in Printful
-    // Using a generic poster/print variant - you can customize this based on your product_type
     const syncProduct = {
       sync_product: {
         name: product.title,
-        thumbnail: uploadData.result.url
+        thumbnail: fileUrl
       },
       sync_variants: [{
-        variant_id: 1, // Generic poster
+        variant_id: 1,
         retail_price: '25.00',
         files: [{
-          url: uploadData.result.url
+          type: 'default',
+          url: fileUrl
         }]
       }]
     };
     
-    const productRes = await fetch('https://api.printful.com/store/products', {
+    const productRes = await fetch(`https://api.printful.com/store/products?store_id=${currentStoreId}`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${printfulToken}`,

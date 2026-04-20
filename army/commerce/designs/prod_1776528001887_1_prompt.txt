@@ -1,8 +1,1 @@
-Generate a high-quality product design for:
-Title: Dark Academia Botanical Print - Vintage Apothecary Wall Art
-Niche: Dark Academia Decor
-Style: Minimalist, professional, trending on Pinterest
-Resolution: 300 DPI, print-ready
-Format: PNG with transparent background where applicable
-
-Design concept: Dark Academia Decor aesthetic with vintage textures and modern composition.
+Generate a high-quality product design for: Dark Academia Botanical Print - Vintage Apothecary Wall Art

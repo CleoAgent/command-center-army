@@ -1,0 +1,32 @@
+[
+  {
+    "id": "prod_1776692701745_1",
+    "title": "Dark Academia Botanical Print - Vintage Apothecary Wall Art",
+    "description": "Dark Academia Botanical Print - Vintage Apothecary Wall Art",
+    "price": "25.00",
+    "tags": "digital art, print on demand, wall decor",
+    "niche": "Dark Academia Decor",
+    "status": "design_ready",
+    "imageFile": "prod_1776692701745_1_design.png"
+  },
+  {
+    "id": "prod_1776692701745_2",
+    "title": "Cyberpunk Cityscape LED Desk Mat - Neo Tokyo Gaming Accessory",
+    "description": "Cyberpunk Cityscape LED Desk Mat - Neo Tokyo Gaming Accessory",
+    "price": "25.00",
+    "tags": "digital art, print on demand, wall decor",
+    "niche": "Cyberpunk / Techwear",
+    "status": "design_ready",
+    "imageFile": "prod_1776692701745_2_design.png"
+  },
+  {
+    "id": "prod_1776692701745_3",
+    "title": "Memento Mori Stoic Philosophy Coffee Tumbler",
+    "description": "Memento Mori Stoic Philosophy Coffee Tumbler",
+    "price": "25.00",
+    "tags": "digital art, print on demand, wall decor",
+    "niche": "Stoic Philosophy",
+    "status": "design_ready",
+    "imageFile": "prod_1776692701745_3_design.png"
+  }
+]
