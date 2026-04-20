@@ -10,6 +10,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Pinterest Privacy Policy Placeholder
+app.get('/privacy', (req, res) => {
+  res.send('<h1>Privacy Policy</h1><p>This application is for internal automation only. We do not collect, share, or sell user data. Data is used exclusively for publishing to our own Pinterest boards.</p>');
+});
+
+// Shopify callback intercept (for future use or displaying a message)
+app.get('/callback', (req, res) => {
+  res.send('<h1>Authorization Received</h1><p>You may close this window and return to the chat.</p>');
+});
+
 const CONFIG_PATH = path.join(__dirname, '..', 'integrations.json');
 const WORKSPACE = '/home/node/.openclaw/workspace';
 const DIST_PATH = path.join(__dirname, '../app/dist');
