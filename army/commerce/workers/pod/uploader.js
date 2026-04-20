@@ -63,30 +63,35 @@ async function uploadToPrintful(product) {
   }
   
   try {
-    // Step 1: Upload the image file to Printful using curl with multipart
-    const curlCmd = `curl -s -X POST "https://api.printful.com/files?store_id=${currentStoreId}" \
-      -H "Authorization: Bearer ${printfulToken}" \
-      -F "file=@${imagePath};type=image/png;filename=${product.id}_design.png"`;
+    // Step 1: Upload the image file to Printful by URL
+    // First, we need to make the image accessible via URL
+    const imageFileName = path.basename(imagePath);
+    const publicUrl = `https://cleoagent.hoskins.fun/exports/images/${imageFileName}`;
     
-    console.log(`[POD Worker] Uploading file for ${product.id}...`);
-    const curlResponse = execSync(curlCmd, { encoding: 'utf8', timeout: 30000 });
+    console.log(`[POD Worker] Registering image URL for ${product.id}: ${publicUrl}`);
     
-    let uploadData;
-    try {
-      uploadData = JSON.parse(curlResponse);
-    } catch (e) {
-      console.error(`[POD Worker] Invalid JSON response from Printful:`, curlResponse.slice(0, 200));
-      return false;
-    }
+    const uploadRes = await fetch('https://api.printful.com/files', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${printfulToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        url: publicUrl,
+        filename: imageFileName
+      })
+    });
     
-    if (!uploadData.result) {
+    const uploadData = await uploadRes.json();
+    
+    if (!uploadRes.ok || !uploadData.result) {
       console.error(`[POD Worker] Printful upload failed for ${product.id}:`, uploadData);
       return false;
     }
     
     const fileId = uploadData.result.id;
     const fileUrl = uploadData.result.url;
-    console.log(`[POD Worker] Uploaded image for ${product.id}, file ID: ${fileId}, URL: ${fileUrl}`);
+    console.log(`[POD Worker] Registered image for ${product.id}, file ID: ${fileId}`);
     
     // Step 2: Create a sync product in Printful
     const syncProduct = {
@@ -115,14 +120,15 @@ async function uploadToPrintful(product) {
     
     const productData = await productRes.json();
     
-    if (!productRes.ok) {
+    console.log(`[POD Worker] Printful product creation response:`, JSON.stringify(productData, null, 2).slice(0, 500));
+    
+    if (!productRes.ok || !productData.result) {
       console.error(`[POD Worker] Printful product creation failed for ${product.id}:`, productData);
       return false;
     }
     
-    console.log(`[POD Worker] Created Printful product for ${product.id}: ID ${productData.result.sync_product.id}`);
+    console.log(`[POD Worker] Created Printful product for ${product.id}: ID ${productData.result.id}`);
     
-    // Save the Printful product data
     const mockupFile = path.join(mockupDir, `${product.id}_printful.json`);
     fs.writeFileSync(mockupFile, JSON.stringify(productData.result, null, 2));
     
