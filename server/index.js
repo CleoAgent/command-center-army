@@ -242,6 +242,7 @@ app.post('/api/dispatch', async (req, res) => {
 });
 
 
+
 // Etsy OAuth PKCE State
 const crypto = require('crypto');
 const etsyAuthState = { verifier: '', state: '' };
@@ -254,7 +255,6 @@ app.get('/api/etsy/auth', (req, res) => {
     return res.status(400).send('Etsy Keystring not configured in Armory. Go back and save it first.');
   }
 
-  // Generate PKCE verifier and challenge
   const verifier = crypto.randomBytes(32).toString('base64url');
   const state = crypto.randomBytes(16).toString('hex');
   
@@ -262,15 +262,11 @@ app.get('/api/etsy/auth', (req, res) => {
   etsyAuthState.state = state;
 
   const challenge = crypto.createHash('sha256').update(verifier).digest('base64url');
-  
-  // Scopes for reading and writing listings/shops
   const scopes = 'listings_r listings_w shops_r shops_w';
-  let host = req.get('host');
-  // Etsy usually defaults to localhost or 127.0.0.1 callbacks for new apps before they are approved
-  if (host.includes('10.0.10.20') || host.includes('cleoagent.hoskins.fun')) {
-    host = 'localhost:5173'; 
-  }
-  const redirectUri = `http://${host}/api/etsy/callback`;
+  
+  // Dynamic fallback: Use whatever was registered in Etsy.
+  // We'll let the user define it, or guess common defaults.
+  const redirectUri = config.etsyCallbackUrl || `http://${req.get('host')}/api/etsy/callback`;
   
   const authUrl = `https://www.etsy.com/oauth/connect?response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes)}&client_id=${encodeURIComponent(clientId)}&state=${state}&code_challenge=${challenge}&code_challenge_method=S256`;
   
@@ -289,13 +285,7 @@ app.get('/api/etsy/callback', async (req, res) => {
   }
   
   const config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'));
-  const clientId = config.etsy;
-  let host = req.get('host');
-  // Etsy usually defaults to localhost or 127.0.0.1 callbacks for new apps before they are approved
-  if (host.includes('10.0.10.20') || host.includes('cleoagent.hoskins.fun')) {
-    host = 'localhost:5173'; 
-  }
-  const redirectUri = `http://${host}/api/etsy/callback`;
+  const redirectUri = config.etsyCallbackUrl || `http://${req.get('host')}/api/etsy/callback`;
 
   try {
     const response = await fetch('https://api.etsy.com/v3/public/oauth/token', {
@@ -305,7 +295,7 @@ app.get('/api/etsy/callback', async (req, res) => {
       },
       body: new URLSearchParams({
         grant_type: 'authorization_code',
-        client_id: clientId,
+        client_id: config.etsy,
         redirect_uri: redirectUri,
         code: code,
         code_verifier: etsyAuthState.verifier
@@ -318,7 +308,6 @@ app.get('/api/etsy/callback', async (req, res) => {
       throw new Error(JSON.stringify(data));
     }
     
-    // Save tokens
     config.etsyAccessToken = data.access_token;
     config.etsyRefreshToken = data.refresh_token;
     fs.writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2));
@@ -328,7 +317,6 @@ app.get('/api/etsy/callback', async (req, res) => {
     res.status(500).send(`Failed to exchange token: ${err.message}`);
   }
 });
-
 // Serve frontend static files
 
 app.use(express.static(DIST_PATH));

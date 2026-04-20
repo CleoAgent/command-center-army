@@ -184,6 +184,7 @@ function IntegrationsView() {
     openai: '',
     etsy: '',
     etsySharedSecret: '',
+    etsyCallbackUrl: '',
     printful: '',
     fiverr: '',
     googleGemini: '',
@@ -260,6 +261,15 @@ function IntegrationsView() {
               value={keys.etsySharedSecret} 
               onChange={e => setKeys({...keys, etsySharedSecret: e.target.value})}
               placeholder="43nrx..."
+            />
+          </div>
+          <div style={{marginTop: '10px'}}>
+            <label>ETSY CALLBACK URL (Exactly as registered in Etsy)</label>
+            <input 
+              type="text" 
+              value={keys.etsyCallbackUrl} 
+              onChange={e => setKeys({...keys, etsyCallbackUrl: e.target.value})}
+              placeholder="e.g. http://localhost/api/etsy/callback"
             />
           </div>
           <div style={{marginTop: '10px'}}>
