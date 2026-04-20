@@ -355,6 +355,22 @@ app.get('/api/army/products', (req, res) => {
 // Serve design images
 app.use('/exports/images', express.static(path.join(__dirname, '../army/commerce/designs')));
 
+// Printful store connection status
+app.get('/api/army/stores', async (req, res) => {
+  try {
+    const config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'));
+    if (!config.printful) return res.json([]);
+    
+    const storesRes = await fetch('https://api.printful.com/stores', {
+      headers: { 'Authorization': `Bearer ${config.printful}` }
+    });
+    const storesData = await storesRes.json();
+    res.json(storesData.result || []);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // Serve frontend static files
 
 app.use(express.static(DIST_PATH));

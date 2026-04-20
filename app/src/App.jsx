@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Settings, LayoutDashboard, CheckCircle2, Activity, Server, Shield, Users, Target, Zap } from 'lucide-react'
+import { Settings, LayoutDashboard, CheckCircle2, Activity, Server, Shield, Users, Target, Zap, Database } from 'lucide-react'
 import PhaserBg from './PhaserBg'
 import './App.css'
 import './military.css'
@@ -175,6 +175,82 @@ function CommerceExports() {
   );
 }
 
+function StoreDashboard() {
+  const [stores, setStores] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/army/stores')
+      .then(res => res.json())
+      .then(storeData => {
+        setStores(storeData);
+        return fetch('/api/army/products');
+      })
+      .then(res => res.json())
+      .then(productData => {
+        setProducts(productData);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to fetch store data', err);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <div className="empty-state">Loading store data...</div>;
+
+  const apiStore = stores.find(s => s.type === 'native');
+  const etsyStore = stores.find(s => s.type === 'etsy');
+  const apiProducts = products.filter(p => p.status === 'pod_ready');
+  const readyToPush = apiProducts.filter(p => p.printfulId);
+
+  return (
+    <>
+      <Section title="PRINTFUL STORE STATUS" subtitle="Live connection to both stores" icon={Server}>
+        <div className="runtime-grid">
+          <div className="runtime-box" style={{border: '1px solid #10b981'}}>
+            <span className="runtime-label">API STORE</span>
+            <strong>{apiStore?.name || 'Not Connected'}</strong>
+            <div style={{fontSize: '0.8rem', color: '#6ee7b7'}}>{apiProducts.length} products</div>
+          </div>
+          <div className="runtime-box" style={{border: '1px solid #f59e0b'}}>
+            <span className="runtime-label">ETSY STORE</span>
+            <strong>{etsyStore?.name || 'Not Connected'}</strong>
+            <div style={{fontSize: '0.8rem', color: '#fcd34d'}}>Platform-connected</div>
+          </div>
+        </div>
+      </Section>
+
+      <Section title="PRODUCTS READY TO PUSH" subtitle={`${readyToPush.length} products in API store awaiting sync to Etsy`} icon={Target}>
+        {readyToPush.length > 0 ? (
+          <div className="queue-grid">
+            {readyToPush.map(product => (
+              <div key={product.id} className="queue-card" style={{border: '1px solid #f59e0b'}}>
+                <div className="queue-header">
+                  <span className="queue-id">{product.id}</span>
+                  <span className="queue-status" style={{background: '#f59e0b'}}>READY TO PUSH</span>
+                </div>
+                <div className="queue-title">{product.title}</div>
+                <div style={{fontSize: '0.8rem', color: '#67e8f9', marginTop: '5px'}}>
+                  Printful ID: {product.printfulId}
+                </div>
+                <a href={`https://www.printful.com/dashboard/product-push?store_id=${etsyStore?.id}`} target="_blank" rel="noopener noreferrer">
+                  <button className="save-btn" style={{marginTop: '10px', background: 'rgba(245, 158, 11, 0.2)', border: '1px solid #f59e0b', color: '#fcd34d', width: '100%'}}>
+                    PUSH TO ETSY STORE
+                  </button>
+                </a>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="empty-state">No products ready to push yet.</div>
+        )}
+      </Section>
+    </>
+  );
+}
+
 function DepartmentView({ captain, tasks, onBack, army }) {
   const deptTasks = tasks.filter(t => t.title.toLowerCase().includes(captain.id.toLowerCase()) || (t.parentId && t.title.includes(captain.name.split(' ')[0])));
   
@@ -202,7 +278,8 @@ function DepartmentView({ captain, tasks, onBack, army }) {
           )) : <span className="empty-state">NO OFFICERS ASSIGNED</span>}
         </div>
         
-        {isCommerce && <CommerceExports />}
+        {isCommerce && <StoreDashboard />}
+      {isCommerce && <CommerceExports />}
       </Section>
 
       <Section title="ACTIVE CLEO MISSIONS" subtitle={`Tasks assigned to ${captain.name}`} icon={Target}>

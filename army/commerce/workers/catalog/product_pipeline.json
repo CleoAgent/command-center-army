@@ -10,7 +10,10 @@
     "designGeneratedAt": "2026-04-20T14:06:05.041Z",
     "printfulFile": "/home/node/.openclaw/workspace/command-center/army/commerce/mockups/prod_1776527229964_1_printful.json",
     "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776527229964_1_design.png",
-    "printfulSynced": "2026-04-20T14:50:58.732Z"
+    "printfulSynced": true,
+    "printfulId": 429024128,
+    "printfulStoreId": 18048742,
+    "printfulStoreName": "Daddy's Store"
   },
   {
     "id": "prod_1776527229964_2",
@@ -23,7 +26,10 @@
     "designGeneratedAt": "2026-04-20T14:06:21.164Z",
     "printfulFile": "/home/node/.openclaw/workspace/command-center/army/commerce/mockups/prod_1776527229964_2_printful.json",
     "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776527229964_2_design.png",
-    "printfulSynced": "2026-04-20T14:50:59.227Z"
+    "printfulSynced": true,
+    "printfulId": 429024129,
+    "printfulStoreId": 18048742,
+    "printfulStoreName": "Daddy's Store"
   },
   {
     "id": "prod_1776527229964_3",
@@ -36,7 +42,10 @@
     "designGeneratedAt": "2026-04-20T14:06:43.287Z",
     "printfulFile": "/home/node/.openclaw/workspace/command-center/army/commerce/mockups/prod_1776527229964_3_printful.json",
     "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776527229964_3_design.png",
-    "printfulSynced": "2026-04-20T14:53:26.319Z"
+    "printfulSynced": true,
+    "printfulId": 429024427,
+    "printfulStoreId": 18048742,
+    "printfulStoreName": "Daddy's Store"
   },
   {
     "id": "prod_1776528001887_1",
@@ -84,10 +93,11 @@
     "title": "Dark Academia Botanical Print - Vintage Apothecary Wall Art",
     "target_audience": "Gen Z/Millennial aesthetic room decor",
     "estimated_margin": "55%",
-    "status": "design_ready",
+    "status": "pod_ready",
     "designGeneratedAt": "2026-04-20T14:07:51.808Z",
     "printfulFile": "/home/node/.openclaw/workspace/command-center/army/commerce/mockups/prod_1776528901611_1_printful.json",
-    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776528901611_1_design.png"
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776528901611_1_design.png",
+    "printfulSynced": "2026-04-20T15:03:21.176Z"
   },
   {
     "id": "prod_1776528901611_2",
@@ -96,10 +106,11 @@
     "title": "Cyberpunk Cityscape LED Desk Mat - Neo Tokyo Gaming Accessory",
     "target_audience": "Gamers, Software Engineers",
     "estimated_margin": "40%",
-    "status": "design_ready",
+    "status": "pod_ready",
     "designGeneratedAt": "2026-04-20T14:08:23.280Z",
     "printfulFile": "/home/node/.openclaw/workspace/command-center/army/commerce/mockups/prod_1776528901611_2_printful.json",
-    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776528901611_2_design.png"
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776528901611_2_design.png",
+    "printfulSynced": "2026-04-20T15:03:21.783Z"
   },
   {
     "id": "prod_1776528901611_3",
@@ -108,10 +119,11 @@
     "title": "Memento Mori Stoic Philosophy Coffee Tumbler",
     "target_audience": "Entrepreneurs, Productivity Enthusiasts",
     "estimated_margin": "60%",
-    "status": "design_ready",
+    "status": "pod_ready",
     "designGeneratedAt": "2026-04-20T14:08:47.713Z",
     "printfulFile": "/home/node/.openclaw/workspace/command-center/army/commerce/mockups/prod_1776528901611_3_printful.json",
-    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776528901611_3_design.png"
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776528901611_3_design.png",
+    "printfulSynced": "2026-04-20T15:08:27.600Z"
   },
   {
     "id": "prod_1776529801550_1",
@@ -120,10 +132,11 @@
     "title": "Dark Academia Botanical Print - Vintage Apothecary Wall Art",
     "target_audience": "Gen Z/Millennial aesthetic room decor",
     "estimated_margin": "55%",
-    "status": "design_ready",
+    "status": "pod_ready",
     "designGeneratedAt": "2026-04-20T14:09:09.857Z",
     "printfulFile": "/home/node/.openclaw/workspace/command-center/army/commerce/mockups/prod_1776529801550_1_printful.json",
-    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776529801550_1_design.png"
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776529801550_1_design.png",
+    "printfulSynced": "2026-04-20T15:08:28.354Z"
   },
   {
     "id": "prod_1776529801550_2",
@@ -132,10 +145,11 @@
     "title": "Cyberpunk Cityscape LED Desk Mat - Neo Tokyo Gaming Accessory",
     "target_audience": "Gamers, Software Engineers",
     "estimated_margin": "40%",
-    "status": "design_ready",
+    "status": "pod_ready",
     "designGeneratedAt": "2026-04-20T14:15:22.248Z",
     "printfulFile": "/home/node/.openclaw/workspace/command-center/army/commerce/mockups/prod_1776529801550_2_printful.json",
-    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776529801550_2_design.png"
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776529801550_2_design.png",
+    "printfulSynced": "2026-04-20T15:13:29.530Z"
   },
   {
     "id": "prod_1776529801550_3",
@@ -144,10 +158,11 @@
     "title": "Memento Mori Stoic Philosophy Coffee Tumbler",
     "target_audience": "Entrepreneurs, Productivity Enthusiasts",
     "estimated_margin": "60%",
-    "status": "design_ready",
+    "status": "pod_ready",
     "designGeneratedAt": "2026-04-20T14:15:36.254Z",
     "printfulFile": "/home/node/.openclaw/workspace/command-center/army/commerce/mockups/prod_1776529801550_3_printful.json",
-    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776529801550_3_design.png"
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776529801550_3_design.png",
+    "printfulSynced": "2026-04-20T15:13:30.202Z"
   },
   {
     "id": "prod_1776530701205_1",
@@ -6669,7 +6684,9 @@
     "title": "Dark Academia Botanical Print - Vintage Apothecary Wall Art",
     "target_audience": "Gen Z/Millennial aesthetic room decor",
     "estimated_margin": "55%",
-    "status": "staged_for_generation"
+    "status": "design_ready",
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776693601403_1_design.png",
+    "designGeneratedAt": "2026-04-20T15:00:29.586Z"
   },
   {
     "id": "prod_1776693601403_2",
@@ -6678,7 +6695,9 @@
     "title": "Cyberpunk Cityscape LED Desk Mat - Neo Tokyo Gaming Accessory",
     "target_audience": "Gamers, Software Engineers",
     "estimated_margin": "40%",
-    "status": "staged_for_generation"
+    "status": "design_ready",
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776693601403_2_design.png",
+    "designGeneratedAt": "2026-04-20T15:00:43.947Z"
   },
   {
     "id": "prod_1776693601403_3",
@@ -6687,7 +6706,9 @@
     "title": "Memento Mori Stoic Philosophy Coffee Tumbler",
     "target_audience": "Entrepreneurs, Productivity Enthusiasts",
     "estimated_margin": "60%",
-    "status": "staged_for_generation"
+    "status": "design_ready",
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776693601403_3_design.png",
+    "designGeneratedAt": "2026-04-20T15:00:58.185Z"
   },
   {
     "id": "prod_1776694501891_1",
@@ -6696,7 +6717,9 @@
     "title": "Dark Academia Botanical Print - Vintage Apothecary Wall Art",
     "target_audience": "Gen Z/Millennial aesthetic room decor",
     "estimated_margin": "55%",
-    "status": "staged_for_generation"
+    "status": "design_ready",
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776694501891_1_design.png",
+    "designGeneratedAt": "2026-04-20T15:01:14.031Z"
   },
   {
     "id": "prod_1776694501891_2",
@@ -6705,7 +6728,9 @@
     "title": "Cyberpunk Cityscape LED Desk Mat - Neo Tokyo Gaming Accessory",
     "target_audience": "Gamers, Software Engineers",
     "estimated_margin": "40%",
-    "status": "staged_for_generation"
+    "status": "design_ready",
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776694501891_2_design.png",
+    "designGeneratedAt": "2026-04-20T15:01:43.998Z"
   },
   {
     "id": "prod_1776694501891_3",
@@ -6714,7 +6739,9 @@
     "title": "Memento Mori Stoic Philosophy Coffee Tumbler",
     "target_audience": "Entrepreneurs, Productivity Enthusiasts",
     "estimated_margin": "60%",
-    "status": "staged_for_generation"
+    "status": "design_ready",
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776694501891_3_design.png",
+    "designGeneratedAt": "2026-04-20T15:01:59.708Z"
   },
   {
     "id": "prod_1776695401996_1",
@@ -6723,7 +6750,9 @@
     "title": "Dark Academia Botanical Print - Vintage Apothecary Wall Art",
     "target_audience": "Gen Z/Millennial aesthetic room decor",
     "estimated_margin": "55%",
-    "status": "staged_for_generation"
+    "status": "design_ready",
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776695401996_1_design.png",
+    "designGeneratedAt": "2026-04-20T15:02:19.930Z"
   },
   {
     "id": "prod_1776695401996_2",
@@ -6732,7 +6761,9 @@
     "title": "Cyberpunk Cityscape LED Desk Mat - Neo Tokyo Gaming Accessory",
     "target_audience": "Gamers, Software Engineers",
     "estimated_margin": "40%",
-    "status": "staged_for_generation"
+    "status": "design_ready",
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776695401996_2_design.png",
+    "designGeneratedAt": "2026-04-20T15:02:40.590Z"
   },
   {
     "id": "prod_1776695401996_3",
@@ -6741,7 +6772,9 @@
     "title": "Memento Mori Stoic Philosophy Coffee Tumbler",
     "target_audience": "Entrepreneurs, Productivity Enthusiasts",
     "estimated_margin": "60%",
-    "status": "staged_for_generation"
+    "status": "design_ready",
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776695401996_3_design.png",
+    "designGeneratedAt": "2026-04-20T15:03:04.794Z"
   },
   {
     "id": "prod_1776696301844_1",
@@ -6750,7 +6783,9 @@
     "title": "Dark Academia Botanical Print - Vintage Apothecary Wall Art",
     "target_audience": "Gen Z/Millennial aesthetic room decor",
     "estimated_margin": "55%",
-    "status": "staged_for_generation"
+    "status": "design_ready",
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776696301844_1_design.png",
+    "designGeneratedAt": "2026-04-20T15:03:20.157Z"
   },
   {
     "id": "prod_1776696301844_2",
@@ -6759,7 +6794,9 @@
     "title": "Cyberpunk Cityscape LED Desk Mat - Neo Tokyo Gaming Accessory",
     "target_audience": "Gamers, Software Engineers",
     "estimated_margin": "40%",
-    "status": "staged_for_generation"
+    "status": "design_ready",
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776696301844_2_design.png",
+    "designGeneratedAt": "2026-04-20T15:06:42.923Z"
   },
   {
     "id": "prod_1776696301844_3",
@@ -6768,6 +6805,74 @@
     "title": "Memento Mori Stoic Philosophy Coffee Tumbler",
     "target_audience": "Entrepreneurs, Productivity Enthusiasts",
     "estimated_margin": "60%",
-    "status": "staged_for_generation"
+    "status": "design_ready",
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776696301844_3_design.png",
+    "designGeneratedAt": "2026-04-20T15:07:04.046Z"
+  },
+  {
+    "id": "prod_1776697201439_1",
+    "niche": "Dark Academia Decor",
+    "product_type": "Poster / Canvas",
+    "title": "Dark Academia Botanical Print - Vintage Apothecary Wall Art",
+    "target_audience": "Gen Z/Millennial aesthetic room decor",
+    "estimated_margin": "55%",
+    "status": "design_ready",
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776697201439_1_design.png",
+    "designGeneratedAt": "2026-04-20T15:07:22.405Z"
+  },
+  {
+    "id": "prod_1776697201439_2",
+    "niche": "Cyberpunk / Techwear",
+    "product_type": "Mousepad / Desk Mat",
+    "title": "Cyberpunk Cityscape LED Desk Mat - Neo Tokyo Gaming Accessory",
+    "target_audience": "Gamers, Software Engineers",
+    "estimated_margin": "40%",
+    "status": "design_ready",
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776697201439_2_design.png",
+    "designGeneratedAt": "2026-04-20T15:07:54.016Z"
+  },
+  {
+    "id": "prod_1776697201439_3",
+    "niche": "Stoic Philosophy",
+    "product_type": "Mug / Tumbler",
+    "title": "Memento Mori Stoic Philosophy Coffee Tumbler",
+    "target_audience": "Entrepreneurs, Productivity Enthusiasts",
+    "estimated_margin": "60%",
+    "status": "design_ready",
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776697201439_3_design.png",
+    "designGeneratedAt": "2026-04-20T15:08:26.480Z"
+  },
+  {
+    "id": "prod_1776698101797_1",
+    "niche": "Dark Academia Decor",
+    "product_type": "Poster / Canvas",
+    "title": "Dark Academia Botanical Print - Vintage Apothecary Wall Art",
+    "target_audience": "Gen Z/Millennial aesthetic room decor",
+    "estimated_margin": "55%",
+    "status": "design_ready",
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776698101797_1_design.png",
+    "designGeneratedAt": "2026-04-20T15:15:15.874Z"
+  },
+  {
+    "id": "prod_1776698101797_2",
+    "niche": "Cyberpunk / Techwear",
+    "product_type": "Mousepad / Desk Mat",
+    "title": "Cyberpunk Cityscape LED Desk Mat - Neo Tokyo Gaming Accessory",
+    "target_audience": "Gamers, Software Engineers",
+    "estimated_margin": "40%",
+    "status": "design_ready",
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776698101797_2_design.png",
+    "designGeneratedAt": "2026-04-20T15:15:36.719Z"
+  },
+  {
+    "id": "prod_1776698101797_3",
+    "niche": "Stoic Philosophy",
+    "product_type": "Mug / Tumbler",
+    "title": "Memento Mori Stoic Philosophy Coffee Tumbler",
+    "target_audience": "Entrepreneurs, Productivity Enthusiasts",
+    "estimated_margin": "60%",
+    "status": "design_ready",
+    "designImagePath": "/home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776698101797_3_design.png",
+    "designGeneratedAt": "2026-04-20T15:15:51.760Z"
   }
 ]

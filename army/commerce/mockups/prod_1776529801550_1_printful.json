@@ -1,18 +1,9 @@
 {
-  "sync_product": {
-    "name": "Dark Academia Botanical Print - Vintage Apothecary Wall Art",
-    "thumbnail": "https://placeholder.com/mockup_prod_1776529801550_1.jpg"
-  },
-  "sync_variants": [
-    {
-      "variant_id": 4012,
-      "retail_price": "18.89",
-      "files": [
-        {
-          "url": "file:///home/node/.openclaw/workspace/command-center/army/commerce/designs/prod_1776529801550_1_prompt.txt",
-          "placement": "default"
-        }
-      ]
-    }
-  ]
+  "id": 429025108,
+  "external_id": "69e6416c1fd3d4",
+  "name": "Dark Academia Botanical Print - Vintage Apothecary Wall Art",
+  "variants": 1,
+  "synced": 1,
+  "thumbnail_url": "https://cleoagent.hoskins.fun/exports/images/prod_1776529801550_1_design.png",
+  "is_ignored": false
 }

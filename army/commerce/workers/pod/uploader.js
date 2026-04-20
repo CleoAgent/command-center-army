@@ -70,7 +70,7 @@ async function uploadToPrintful(product) {
     
     console.log(`[POD Worker] Registering image URL for ${product.id}: ${publicUrl}`);
     
-    const uploadRes = await fetch('https://api.printful.com/files', {
+    const uploadRes = await fetch(`https://api.printful.com/files?store_id=${currentStoreId}`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${printfulToken}`,
