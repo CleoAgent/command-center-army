@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-// POD Worker - Uploads to Printful using Private Token
+// Decoupled POD Worker - Generates Mockups via Printful API (Does NOT create products)
 const pipelinePath = path.join(__dirname, '../catalog/product_pipeline.json');
 const mockupDir = path.join(__dirname, '../../mockups');
 const credsPath = path.join(__dirname, '../../../../integrations.json');
@@ -11,11 +11,9 @@ if (!fs.existsSync(mockupDir)) fs.mkdirSync(mockupDir, { recursive: true });
 
 // Load credentials
 let printfulToken = '';
-let storeId = '';
 try {
   const creds = JSON.parse(fs.readFileSync(credsPath, 'utf8'));
   printfulToken = creds.printful || '';
-  storeId = creds.printfulStoreId || '';
 } catch (e) {
   console.error('[POD Worker] Failed to load credentials:', e.message);
 }
@@ -25,37 +23,13 @@ if (!printfulToken) {
   process.exit(0);
 }
 
-async function getStoreId() {
-  if (storeId) return storeId;
-  try {
-    const res = await fetch('https://api.printful.com/stores', {
-      headers: { 'Authorization': `Bearer ${printfulToken}` }
-    });
-    const data = await res.json();
-    if (data.result && data.result.length > 0) {
-      storeId = data.result[0].id;
-      console.log(`[POD Worker] Using Printful store ID: ${storeId}`);
-      return storeId;
-    }
-  } catch (err) {
-    console.error('[POD Worker] Failed to get store ID:', err.message);
-  }
-  return null;
-}
-
 const pipeline = JSON.parse(fs.readFileSync(pipelinePath, 'utf8'));
 const ready = pipeline.filter(p => p.status === 'design_ready' && p.designImagePath).slice(0, 2);
 
-console.log(`[POD Worker] Processing ${ready.length} products for Printful...`);
+console.log(`[POD Worker] Processing ${ready.length} products for Mockup Generation...`);
 
-async function uploadToPrintful(product) {
+async function generateMockups(product) {
   const imagePath = product.designImagePath;
-  const currentStoreId = await getStoreId();
-  
-  if (!currentStoreId) {
-    console.log('[POD Worker] No Printful store ID available. Skipping.');
-    return false;
-  }
   
   if (!imagePath || !fs.existsSync(imagePath)) {
     console.log(`[POD Worker] No image file for ${product.id}, skipping.`);
@@ -63,74 +37,105 @@ async function uploadToPrintful(product) {
   }
   
   try {
-    // Step 1: Upload the image file to Printful by URL
-    // First, we need to make the image accessible via URL
+    // Make the image accessible via URL for Printful
     const imageFileName = path.basename(imagePath);
     const publicUrl = `https://cleoagent.hoskins.fun/exports/images/${imageFileName}`;
     
-    console.log(`[POD Worker] Registering image URL for ${product.id}: ${publicUrl}`);
+    console.log(`[POD Worker] Requesting Mockups for ${product.id} using image URL: ${publicUrl}`);
     
-    const uploadRes = await fetch(`https://api.printful.com/files?store_id=${currentStoreId}`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${printfulToken}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        url: publicUrl,
-        filename: imageFileName
-      })
-    });
-    
-    const uploadData = await uploadRes.json();
-    
-    if (!uploadRes.ok || !uploadData.result) {
-      console.error(`[POD Worker] Printful upload failed for ${product.id}:`, uploadData);
-      return false;
-    }
-    
-    const fileId = uploadData.result.id;
-    const fileUrl = uploadData.result.url;
-    console.log(`[POD Worker] Registered image for ${product.id}, file ID: ${fileId}`);
-    
-    // Step 2: Create a sync product in Printful
-    const syncProduct = {
-      sync_product: {
-        name: product.title,
-        thumbnail: fileUrl
-      },
-      sync_variants: [{
-        variant_id: 71, // Gildan 64000 T-Shirt, White S
-        retail_price: '25.00',
-        files: [{
-          type: 'front', // front placement for t-shirts
-          url: fileUrl
-        }]
-      }]
+    // Product ID 71 is a Gildan 64000. Variant 4011 is Black Large.
+    const mockupPayload = {
+      variant_ids: [4011],
+      format: "jpg",
+      files: [
+        {
+          placement: "front",
+          image_url: publicUrl,
+          position: {
+            area_width: 1800,
+            area_height: 2400,
+            width: 1800,
+            height: 1800,
+            top: 300,
+            left: 0
+          }
+        }
+      ]
     };
     
-    const productRes = await fetch(`https://api.printful.com/store/products?store_id=${currentStoreId}`, {
+    const storeId = JSON.parse(fs.readFileSync(credsPath, 'utf8')).printfulStoreId || '';
+    const mockupRes = await fetch(`https://api.printful.com/mockup-generator/create-task/71${storeId ? '?store_id=' + storeId : ''}`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${printfulToken}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(syncProduct)
+      body: JSON.stringify(mockupPayload)
     });
     
-    const productData = await productRes.json();
+    const mockupData = await mockupRes.json();
     
-    console.log(`[POD Worker] Printful product creation response:`, JSON.stringify(productData, null, 2).slice(0, 500));
-    
-    if (!productRes.ok || !productData.result) {
-      console.error(`[POD Worker] Printful product creation failed for ${product.id}:`, productData);
+    if (!mockupRes.ok || !mockupData.result) {
+      console.error(`[POD Worker] Mockup generation failed for ${product.id}:`, mockupData);
       return false;
     }
     
-    console.log(`[POD Worker] Created Printful product for ${product.id}: ID ${productData.result.id}`);
+    const taskKey = mockupData.result.task_key;
+    console.log(`[POD Worker] Mockup task created for ${product.id}. Task Key: ${taskKey}. Waiting for completion...`);
     
-    const mockupFile = path.join(mockupDir, `${product.id}_printful.json`);
-    fs.writeFileSync(mockupFile, JSON.stringify(productData.result, null, 2));
+    // Poll for task completion
+    let taskCompleted = false;
+    let mockupResultData = null;
+    let attempts = 0;
+    
+    while (!taskCompleted && attempts < 20) {
+      attempts++;
+      console.log(`[POD Worker] Polling mockup task ${taskKey} (Attempt ${attempts})...`);
+      
+      // Wait 5 seconds between polls
+      await new Promise(resolve => setTimeout(resolve, 5000));
+      
+      const pollRes = await fetch(`https://api.printful.com/mockup-generator/task?task_key=${taskKey}`, {
+        headers: { 'Authorization': `Bearer ${printfulToken}` }
+      });
+      const pollData = await pollRes.json();
+      
+      if (pollData.result.status === 'completed') {
+        taskCompleted = true;
+        mockupResultData = pollData.result;
+      } else if (pollData.result.status === 'failed') {
+        console.error(`[POD Worker] Mockup task failed for ${product.id}:`, pollData);
+        return false;
+      }
+    }
+    
+    if (!taskCompleted) {
+      console.error(`[POD Worker] Mockup task timed out for ${product.id}`);
+      return false;
+    }
+    
+    console.log(`[POD Worker] Mockups generated successfully for ${product.id}`);
+    
+    // Save mockup data locally
+    const productData = {
+      sku: product.id,
+      print_url: publicUrl,
+      printful_variant_id: 71,
+      mockups: mockupResultData.mockups
+    };
+    
+    const mockupFile = path.join(mockupDir, `${product.id}_mockups.json`);
+    fs.writeFileSync(mockupFile, JSON.stringify(productData, null, 2));
+    
+    // Download the primary mockup image to serve locally
+    if (productData.mockups && productData.mockups.length > 0 && productData.mockups[0].mockup_url) {
+      const primaryMockupUrl = productData.mockups[0].mockup_url;
+      const localMockupPath = path.join(mockupDir, `${product.id}_mockup_main.jpg`);
+      
+      console.log(`[POD Worker] Downloading primary mockup...`);
+      execSync(`curl -s "${primaryMockupUrl}" -o "${localMockupPath}"`);
+      product.mockupImagePath = `/exports/mockups/${product.id}_mockup_main.jpg`;
+    }
     
     return true;
   } catch (err) {
@@ -143,14 +148,13 @@ async function uploadToPrintful(product) {
   let successCount = 0;
   
   for (const product of ready) {
-    const success = await uploadToPrintful(product);
+    const success = await generateMockups(product);
     if (success) {
-      product.status = 'pod_ready';
-      product.printfulSynced = new Date().toISOString();
+      product.status = 'mockup_ready';
       successCount++;
     }
   }
   
   fs.writeFileSync(pipelinePath, JSON.stringify(pipeline, null, 2));
-  console.log(`[POD Worker] ${successCount}/${ready.length} products synced to Printful.`);
+  console.log(`[POD Worker] ${successCount}/${ready.length} mockups generated.`);
 })();
