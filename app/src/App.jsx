@@ -309,7 +309,10 @@ function IntegrationsView() {
     sunoProxyKey: '',
     sunoBaseUrl: '',
     signalDockAgentId: '',
-    signalDockApiKey: ''
+    signalDockApiKey: '',
+    shopifyUrl: '',
+    shopifyToken: '',
+    pinterestToken: ''
   })
   const [saved, setSaved] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -468,6 +471,35 @@ function IntegrationsView() {
           </div>
         </div>
         
+        <div className="form-group" style={{borderLeft: '2px solid #8b5cf6', paddingLeft: '10px', marginTop: '10px'}}>
+          <label>SHOPIFY STORE URL (e.g., yourstore.myshopify.com)</label>
+          <input 
+            type="text" 
+            value={keys.shopifyUrl} 
+            onChange={e => setKeys({...keys, shopifyUrl: e.target.value})}
+            placeholder="Shopify URL..."
+          />
+          <div style={{marginTop: '10px'}}>
+            <label>SHOPIFY ACCESS TOKEN</label>
+            <input 
+              type="password" 
+              value={keys.shopifyToken} 
+              onChange={e => setKeys({...keys, shopifyToken: e.target.value})}
+              placeholder="shpat_..."
+            />
+          </div>
+        </div>
+
+        <div className="form-group" style={{borderLeft: '2px solid #ef4444', paddingLeft: '10px', marginTop: '10px'}}>
+          <label>PINTEREST API TOKEN (GROWTH PIPELINE)</label>
+          <input 
+            type="password" 
+            value={keys.pinterestToken} 
+            onChange={e => setKeys({...keys, pinterestToken: e.target.value})}
+            placeholder="Pinterest token..."
+          />
+        </div>
+
         <div className="form-group">
           <label>FIVERR API (SERVICES PIPELINE)</label>
           <input 
