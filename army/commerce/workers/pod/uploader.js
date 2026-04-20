@@ -88,12 +88,12 @@ async function generateMockups(product) {
     let mockupResultData = null;
     let attempts = 0;
     
-    while (!taskCompleted && attempts < 20) {
+    while (!taskCompleted && attempts < 30) {
       attempts++;
       console.log(`[POD Worker] Polling mockup task ${taskKey} (Attempt ${attempts})...`);
       
-      // Wait 5 seconds between polls
-      await new Promise(resolve => setTimeout(resolve, 5000));
+      // Wait 10 seconds between polls
+      await new Promise(resolve => setTimeout(resolve, 10000));
       
       const pollRes = await fetch(`https://api.printful.com/mockup-generator/task?task_key=${taskKey}`, {
         headers: { 'Authorization': `Bearer ${printfulToken}` }
